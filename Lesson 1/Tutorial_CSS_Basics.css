@@ -1,0 +1,45 @@
+/* This is a basic tutorial to use CSS. */
+
+/* First, we will be introducing selectors.
+   Selectors are used to "find" the HTML elements that you want to be styled. */
+
+/* The Universal Selector styles EVERY HTML elements in the HTML file. */
+* {
+  color: orangered;
+}
+
+/* The Element Selector styles HTML elements based on the name. */
+label {
+  color: blue;
+}
+
+/* The ID Selector uses the "id" attribute to select a specific element. */
+#button2 {
+  color: green;
+}
+
+/* The Class Selector styles HTML elements based on the "class" attribute. */
+.button {
+  /* Here are some font-related declarations: */
+  text-align: center;
+  font-style: italic;
+
+  /* Here are some Box model-related declarations: */
+  padding: 10px;
+  margin: 5px;
+  width: 100px;
+  height: 100px;
+
+  /* Exercise: Play around with these values, how does these value affect the buttons? */
+
+  /* If there's a lot of text within the buttons that's exceeds the boundaries,
+     you can use the "overflow" declaration to handle it.*/
+  /* There are 4 values:
+     visible - The DEFAULT value. The content will render outside of the element's box.
+     hidden - The content that would render outside of the element's box will be invisible.
+     scroll - A scrollbar is added to see the overflowing content.
+     auto - similar to scroll, but it adds scrollbars only when necessary */
+  overflow: hidden;
+
+  /* Exercise: play around with these keywords. Which one is the most applicable to handle buttons? */
+}
