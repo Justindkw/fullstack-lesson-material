@@ -7,11 +7,24 @@
   This is useful if the size of the items is unknown or dynamic.
 */
 
-div {
-  width: 300px;
-  height: 200px;
-  border: 3px solid;
+#showcase1 {
+   width: 300px;
+   height: 200px;
+   border: 5px solid black;
 }
+
+#showcase2 {
+  width: 500px;
+  height: 500px;
+  border: 10px solid darkgray;
+}
+
+#showcase3 {
+  width: 300px;
+  height: 300px;
+  border: 5px solid purple;
+}
+
 
 button {
   width: 100px;
@@ -62,10 +75,35 @@ button {
 
   /* EXERCISE: Try playing around with 'align-items' and 'align-content', what are the differences? */
 
-  /*
-    'flex-grow' specifies how much one item will grow relative to the rest of the flex items inside the same container.
-    It has a DEFAULT value of 0.
-   */
 }
+
+/*
+  'flex-grow' specifies how much one item will grow relative to the rest of the flex items inside the same container.
+  It has a DEFAULT value of 0.
+ */
+#showcase2 div:nth-of-type(1) {flex-grow: 1;}
+#showcase2 div:nth-of-type(2) {flex-grow: 3;}
+#showcase2 div:nth-of-type(3) {flex-grow: 1;}
+
+/* Notice how the blue section is 3 times larger than the yellow and orange section. */
+
+/*
+  'flex-basis' specifies the initial width of an item.
+  The DEFAULT value is 'auto', meaning the item's width is the length of the container.
+  You can use a number to specify the width.
+ */
+#showcase3 div:nth-of-type(1) {flex-basis: 100px;}
+#showcase3 div:nth-of-type(2) {flex-basis: 50px;}
+#showcase3 div:nth-of-type(3) {flex-basis: 150px;}
+
+/*
+  NOTE: You can also use the 'min-width' declaration to specify the initial width of an item.
+        'min-width' ensures that an item's width does NOT go below a certain value regardless of the layout.
+ */
+
+/*
+  **IMPORTANT: 'flex-basis' can only work with a Flexbox item, 'min-width' can be used anywhere.
+ */
+
 
 
