@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 
 <html lang="en">
+<script>
+  function ShowInfo() {
+    alert("form submitted")
+  }
+</script>
 
 <!-- To use a CSS file, add a link to it in the <head> element of the HTML page. -->
 <head>
@@ -35,7 +40,7 @@
   <!-- Don't worry about the attribute in the <form> tag for now,
        we will get back to it once we started on the Back-end.
     -->
-  <form onsubmit="{(e) => console.log(e)}">
+  <form onsubmit="ShowInfo()">
 
     <!-- Use the <label> element to add a description. This way the user knows what input would be required. -->
     <!-- NOTE: Use the tag <br> for a line break. Except for the very last line of the form. -->
