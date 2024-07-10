@@ -1,0 +1,72 @@
+<!-- Welcome to the tutorial for the Basics of HTML!-->
+<!-- In this Tutorial, you will be learning how to add interactions between a user and the website. -->
+<!-- You will also learn how to incorporate Cascading Style Sheets (CSS) to add more styles :) -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<!-- To use a CSS file, add a link to it in the <head> element of the HTML page. -->
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Interactivity</title>
+  <link rel="stylesheet" href="Tutorial_CSS_Basics.css">
+</head>
+
+<body>
+
+  <!-- A basic form of interactivity is a button that a user can click.
+       To do that, you will need a "<button> element.
+    -->
+  <!-- NOTE: There are three types of buttons: button, reset, and submit.
+       The "reset" and "submit" buttons are usually used in a <form> element.
+       Therefore, use the "button" as the default type.
+    -->
+  <!-- **IMPORTANT: Always specify what type of button you are using in the "type" attribute.
+       This signals the browser what type of button it is.** -->
+  <button type="button" class="button" id="button1">Click me!</button>
+  <button type="button" class="button" id="button2">No Click me! Please Please Please Please Please Please</button>
+  <!-- Notice that this button looks plain. We will be styling it using CSS. -->
+
+
+  <!-- You can use a <form> element to collect user inputs.
+       This is very common in FullStack applications since the use inputs will be sent to the Back-end for processing.
+    -->
+  <!-- Don't worry about the attribute in the <form> tag for now,
+       we will get back to it once we started on the Back-end.
+    -->
+  <form onsubmit="{(e) => console.log(e)}">
+
+    <!-- Use the <label> element to add a description. This way the user knows what input would be required. -->
+    <!-- NOTE: Use the tag <br> for a line break. Except for the very last line of the form. -->
+    <!-- **IMPORTANT: <label> element has a "for" attribute.
+         This must be equal to the "id" attribute of the <input> element to bind them together.
+         The <input> element will be explained shortly.
+      -->
+    <label for="fname">Enter your first name:</label><br>
+
+    <!-- To allow the user to input data into the web page, you can use the <input> element. -->
+    <!-- The <input> element must have 3 attributes:
+         type - How the element will be displayed.
+         id - The identifier of the input.
+         name - The name of the input element.
+      -->
+    <!-- **IMPORTANT: The "id" must be equal the "for" attribute in the <label> element.** -->
+    <!-- **IMPORTANT: The value of the input field will NOT be sent if the "name attribute is omitted. -->
+    <input type="text" id="fname" name="fname"><br>
+
+    <label for="lname">Enter your lirst name:</label><br>
+    <input type="text" id="lname" name="lname"><br>
+    <br>
+    <input type="submit" value="Submit">
+    <!-- In the example above, 'type="text"' defines a single-line field for text input.
+         'type="submit" defines a button for SUBMITTING the input to a form-handler.
+         This text input will then be sent to the Back-end for processing after clicking the "Submit" button.
+      -->
+
+  </form>
+
+
+</body>
+
+</html>
