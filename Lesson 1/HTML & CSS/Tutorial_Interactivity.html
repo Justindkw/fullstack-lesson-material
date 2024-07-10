@@ -35,7 +35,9 @@
   <!-- Don't worry about the attribute in the <form> tag for now,
        we will get back to it once we started on the Back-end.
     -->
-  <form onsubmit="{(e) => console.log(e)}">
+  <form onsubmit="{(e) =>
+   e.preventDefault(),
+   alert(e)}">
 
     <!-- Use the <label> element to add a description. This way the user knows what input would be required. -->
     <!-- NOTE: Use the tag <br> for a line break. Except for the very last line of the form. -->
@@ -55,7 +57,7 @@
     <!-- **IMPORTANT: The value of the input field will NOT be sent if the "name attribute is omitted. -->
     <input type="text" id="fname" name="fname"><br>
 
-    <label for="lname">Enter your lirst name:</label><br>
+    <label for="lname">Enter your last name:</label><br>
     <input type="text" id="lname" name="lname"><br>
     <br>
     <input type="submit" value="Submit">
