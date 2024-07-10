@@ -9,5 +9,11 @@ includes all the created/modified files.
 
 ---
 
-__Lesson 1: Front-end Basics (HTML, CSS)__
+__Lesson 1: Introduction to JavaScript__
 
+__Lesson 2: Introduction to Front-end (HTML & CSS)__
+
+
+---
+
+## ___*NOTE: This document will be updated as the lessons progress.*___
