@@ -1,6 +1,71 @@
 /* Welcome to the CSS Flexbox tutorial */
 /* We will be taking a look at some basic applications. */
 
-button {
+/*
+  Flexbox is a container element that provides a more efficient way to arrange items within.
+  Because of this, it's ideal to use Flexbox to design complicated web layouts.
+  This is useful if the size of the items is unknown or dynamic.
+*/
 
+div {
+  width: 300px;
+  height: 200px;
+  border: 3px solid;
 }
+
+button {
+  width: 100px;
+  height: 100px;
+}
+
+.flex_container {
+
+  /* Use the declaration below to indicate that the button is a Flexbox. */
+  display: flex;
+
+  /* Now we will showcase some basic properties of Flexbox. */
+
+  /*
+    'flex-direction' specifies the direction/order of the flexible items.
+     Possible values: row (DEFAULT), row-reverse, column, column-reverse.
+     For example, if 'row' is used, then the items will start from left to right.
+     if 'row-reverse' is used, then the items will start from right to left in reverse order.
+   */
+  flex-direction: row-reverse;
+
+  /* EXERCISE: Try playing around with the 'flex-direction' value and see what happens! */
+
+  /*
+    'flex-wrap' specifies if the item should be wrapped onto multiple lines.
+    Wrap only occurs if the items inside the Flexbox container exceeds the width of the container itself.
+    Possible values: nowrap (DEFAULT), wrap, wrap_reverse.
+    If 'nowrap' is used, then the items will be automatically resized to fit the width of the container.
+   */
+  flex-wrap: wrap;
+
+  /* EXERCISE: What happens if you decrease the 'width' inside the 'div' selector? */
+
+  /*
+    'justify-content' is used to align the flex items along the main axis (the "x-axis" of a grid).
+    Possible values: flex-start (DEFAULT), flex-end, center, space-between, space-around, space-evenly.
+    If 'flex-start' is used, then the items are aligned to where the first item starts based on the 'flex-direction'.
+   */
+  justify-content: center;
+
+  /* EXERCISE: Try out the different values for 'justify-content'. How does the alignments differ? */
+
+  /*
+    NOTE: You can also use 'align-items' and 'align-contents' to align items in a Flexbox container.
+          'align-items' aligns the items along the cross axis (the "y-axis" of a grid).
+          'align-content' aligns the flex lines of each item along the cross axis.
+   */
+
+  /* EXERCISE: Try playing around with 'align-items' and 'align-content', what are the differences? */
+
+  /*
+    'flex-grow' specifies how much one item will grow relative to the rest of the flex items inside the same container.
+    It has a DEFAULT value of 0.
+   */
+}
+
+
