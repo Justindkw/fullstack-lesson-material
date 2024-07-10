@@ -3,12 +3,96 @@
 <!-- These will make your web page more organized :) -->
 
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>HTML Semantics</title>
 </head>
+
+
+<!-- Just like a regular document, you can also add header and footer elements. -->
+<!-- You can put introductory information inside the header, like header elements, logo, and authorship. -->
+<!-- NOTE: You can MORE THAN ONE header elements in one HTML document.
+     However, you can't place a <header> inside a <footer> or another <header>.
+-->
+<header>
+
+  <!-- Header elements range from <h1> to <h6>. The smaller the number is, the larger the heading becomes. -->
+  <!-- This means that <h1> has the biggest heading font, and <h6> has the smallest heading font. -->
+  <h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+  <h3>Heading 3</h3>
+  <h4>Heading 4</h4>
+  <h5>Heading 5</h5>
+  <h6>Heading 6</h6>
+
+</header>
+
+
 <body>
 
+  <!-- The paragraph element (denoted as <p>) is used to organize paragraphs. -->
+  <!-- A paragraph always starts on a new line,
+       and the browser automatically add a margin before & after a paragraph.
+    -->
+  <p>
+      I remembered you was conflicted.
+      Misusing your influence, sometimes I did the same.
+      Abusing my power full of resentment.
+      Resentment that turned into a deep depression.
+      Found myself screamin' in the hotel room.
+      I didn't wanna self destruct, the evils of Lucy was all around me.
+      So I went runnin' for answers.
+  </p>
+
+  <p>
+      So I was                   walking around
+     the            other       day.
+  </p>
+  <!-- NOTE: The browser automatically remove any extra spaces or extra lines in your HTML code. -->
+
+  <!-- A <div> element is classified as a block.
+       By default, it takes up all the available width, and comes with line breaks before and after.
+    -->
+  <div>
+      <h3>New ideas starts from here.</h3>
+      <p>What's up? How is it going? Did something good happen?</p>
+  </div>
+
+  <!-- A <span> element is used to mark up a part of a text or a part of document. -->
+  <!-- We can use this to make a part of a text appearing different from the others.
+       a style attribute with a color keyword should do the trick here.
+    -->
+  <p>This is very <span style="color:orangered">interesting</span>, isn't it?</p>
+  <!-- NOTE: <span> element is very similar to <div>, but <span> is an inline element while <div> is a block element.
+       This means that a <span> element only takes up as much width as necessary and does not start a new line. -->
+
+  <!-- You can also list items in HTML! This can be achieved using the <ul> element or the <ol> element. -->
+  <!-- If you want to create a BULLET list, use the <ul> element.
+       If you want to create a NUMBERED list, use the <ol> element.-->
+  <!-- **IMPORTANT: Must use the <li> element for each item in the list.** -->
+  <p>Today's TODO list:</p>
+  <ul>
+      <li>Wake up</li>
+      <li>Eat breakfast</li>
+      <li>Go to work</li>
+  </ul>
+
+  <p>Steps to cook rice:</p>
+  <ol>
+    <li>Get some rice in a cooking bowl</li>
+    <li>Wash the rice at least twice</li>
+    <li>Put in an appropriate amount of water and cook in rice cooker</li>
+  </ol>
+
+
 </body>
+
+
+<footer>
+  &copy; Justin Dekun Wang 2024, all rights reserved
+</footer>
+
 </html>
