@@ -59,8 +59,8 @@ div.relative {
  */
 div.fixed {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 50%;
+  right: 50%;
   width: 300px;
   border: 3px solid purple;
 }

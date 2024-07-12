@@ -29,6 +29,7 @@ label {
   margin: 5px;
   width: 100px;
   height: 100px;
+  display: block;
 
   /* Exercise: Play around with these values, how does these value affect the buttons? */
 
