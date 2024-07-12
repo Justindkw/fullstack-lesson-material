@@ -25,11 +25,29 @@ button:hover {
 }
 
 /* In ACTIVE, you can change the element's behaviour when you click it. */
-button:active {
+button:active:enabled {
   background-color: lightblue;
 }
 
 /* In FOCUS, the element's behaviour is maintained until you click away from it. */
 button:focus {
   color: blue;
+}
+
+button:disabled {
+  color: gray;
+}
+
+button {
+  width: 200px;
+  height: 100px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  gap: 20px;
 }
