@@ -6,7 +6,7 @@
    This component is useful to add more feedback to the user when interacting with the web page's elements.
    A good example would be how a button reacts to when a mouse is hovered over it.
 
-   The syntax of Psudo-class looks like this:
+   The syntax of Pseudo-class looks like this:
 
    selector:pseudo-class {
       declaration: value;
