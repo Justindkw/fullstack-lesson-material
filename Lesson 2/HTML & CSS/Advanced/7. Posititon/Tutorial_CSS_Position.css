@@ -1,0 +1,96 @@
+/* Welcome to the CSS Positions tutorial */
+/* We will be taking a look at some layouts that you can do in CSS. */
+
+div.sample {
+  overflow: scroll;
+  width: 300px;
+  height: 200px;
+  border: 3px solid mediumspringgreen;
+}
+
+/*
+  Position is a property that specifies the type of positioning method used for an element.
+
+  There are 5 possible values:
+
+  1. static (DEFAULT)
+  2. relative
+  3. fixed
+  4. absolute
+  5. sticky
+
+  We will walk through these values one-by-one.
+ */
+
+/*
+  'Static' elements are NOT affect by the top, bottom, left, and right declarations.
+  This means that it's not positioned in any special way,
+  and that it's always positioned according to the normal flow of the page
+ */
+div.static {
+  position: static;
+  width: 500px;
+  height: 250px;
+  border: 3px solid blue;
+}
+
+/*
+  'Relative' elements are positioned relative to its normal (Static) position.
+  One or more of the following declarations will be used to adjust the element's position:
+  'top', 'left', 'right', 'bottom'.
+  NOTE: other content will NOT be adjusted to fit into any gap left by the element.
+ */
+div.relative {
+  position: relative;
+  left: 50px;
+  width: 500px;
+  height: 250px;
+  border: 5px solid red;
+
+  /* In this example, 'left' is use to describe the relative position.
+     This means that normally, compared to the element's current position,
+     the element would be positioned 30px to the left.*/
+}
+
+/*
+  'Fixed' elements are positioned relative to the viewport.
+  This means that these elements always stay in the same place even if the page is scrolled.
+  'top', 'left', 'right', 'bottom' are also used to specify the positionings.
+ */
+div.fixed {
+  position: fixed;
+  bottom: 50%;
+  right: 50%;
+  width: 300px;
+  border: 3px solid purple;
+}
+
+/*
+  'Absolute' elements are positioned to the nearest ancestor element.
+  If there's no ancestor element, then the <body> element will be used as an ancestor,
+  and the positioned element will move along with page scrolling.
+  NOTE: 'Absolute' elements can overlap other elements since they aren't part of a normal flow.
+ */
+div.absolute {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  width: 300px;
+  height: 150px;
+  border: 5px solid black;
+}
+
+/*
+ 'Sticky' elements are positioned based on the user's scroll position.
+ This means that its behaviour is like 'relative' or 'fixed' elements,
+ unless a given offset position is met in the viewport.
+ **IMPORTANT: some web browsers (like safari) does not support sticky, so at least one of the positioning declarations
+              ('top', 'left', 'right', 'bottom') MUST be used.
+ */
+div.sticky {
+  position: sticky;
+  top: 0;
+  padding: 5px;
+  background-color: lightgreen;
+  border: 5px solid green;
+}

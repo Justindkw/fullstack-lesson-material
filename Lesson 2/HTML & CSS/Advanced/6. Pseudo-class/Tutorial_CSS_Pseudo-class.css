@@ -1,0 +1,53 @@
+/* Welcome to the CSS Pseudo-class tutorial */
+/* We will be taking a look at some basic pseudo-classes and what they do. */
+
+/*
+   Pseudo-class is usually used to define a special state of an element.
+   This component is useful to add more feedback to the user when interacting with the web page's elements.
+   A good example would be how a button reacts to when a mouse is hovered over it.
+
+   The syntax of Pseudo-class looks like this:
+
+   selector:pseudo-class {
+      declaration: value;
+   }
+ */
+
+/*
+   In this lesson, we will be looking at 2 pseudo-classes, Hover and Active.
+   This can be used to showcase a difference between visited and unvisited links.
+ */
+
+
+/* In HOVER, you can change the element's behaviour when you hover your mouse onto it. */
+button:hover {
+  color: orange;
+}
+
+/* In ACTIVE, you can change the element's behaviour when you click it. */
+button:active:enabled {
+  background-color: lightblue;
+}
+
+/* In FOCUS, the element's behaviour is maintained until you click away from it. */
+button:focus {
+  color: blue;
+}
+
+button:disabled {
+  color: gray;
+}
+
+button {
+  width: 200px;
+  height: 100px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  gap: 20px;
+}

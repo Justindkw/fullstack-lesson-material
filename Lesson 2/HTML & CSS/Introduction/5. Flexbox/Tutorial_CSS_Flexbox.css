@@ -7,31 +7,61 @@
   This is useful if the size of the items is unknown or dynamic.
 */
 
-#showcase1 {
-   width: 300px;
+.showcase_justify_content {
+   width: 750px;
    height: 200px;
    border: 5px solid black;
 }
 
+.showcase_align_items {
+  width: 600px;
+  height: 250px;
+  border: 5px solid black;
+}
+
 #showcase2 {
   width: 500px;
-  height: 500px;
-  border: 10px solid darkgray;
+  height: 53px;
+  border: 5px solid black;
 }
 
 #showcase3 {
-  width: 300px;
-  height: 300px;
-  border: 5px solid purple;
+  width: 218px;
+  height: 53px;
+  border: 5px solid black;
 }
 
 
-button {
+div.sample {
   width: 100px;
-  height: 100px;
+  height: 50px;
+  background-color: lightgreen;
+  border: 3px solid green;
 }
 
-.flex_container {
+div.sample_align_items_1 {
+  width: 100px;
+  height: 25px;
+  background-color: lightgreen;
+  border: 5px solid green;
+}
+
+div.sample_align_items_2 {
+  width: 100px;
+  height: 50px;
+  background-color: lightgreen;
+  border: 5px solid green;
+}
+
+div.sample_align_items_3 {
+  width: 100px;
+  height: 75px;
+  background-color: lightgreen;
+  border: 5px solid green;
+}
+
+
+.flex_container_demo {
 
   /* Use the declaration below to indicate that the button is a Flexbox. */
   display: flex;
@@ -44,7 +74,7 @@ button {
      For example, if 'row' is used, then the items will start from left to right.
      if 'row-reverse' is used, then the items will start from right to left in reverse order.
    */
-  flex-direction: row-reverse;
+  flex-direction: row;
 
   /* EXERCISE: Try playing around with the 'flex-direction' value and see what happens! */
 
@@ -63,7 +93,7 @@ button {
     Possible values: flex-start (DEFAULT), flex-end, center, space-between, space-around, space-evenly.
     If 'flex-start' is used, then the items are aligned to where the first item starts based on the 'flex-direction'.
    */
-  justify-content: center;
+  justify-content: flex-start;
 
   /* EXERCISE: Try out the different values for 'justify-content'. How does the alignments differ? */
 
@@ -76,6 +106,85 @@ button {
   /* EXERCISE: Try playing around with 'align-items' and 'align-content', what are the differences? */
 
 }
+
+.flex_container_column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.flex_container_flex-end {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.flex_container_center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex_container_space-between {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.flex_container_space-around {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.flex_container_space-evenly {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+
+.flex_container_align_items_stretch {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.flex_container_align_items_center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.flex_container_align_items_flex-start {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.flex_container_align_items_flex-end {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.flex_container_align_items_baseline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
 
 /*
   'flex-grow' specifies how much one item will grow relative to the rest of the flex items inside the same container.
@@ -92,9 +201,9 @@ button {
   The DEFAULT value is 'auto', meaning the item's width is the length of the container.
   You can use a number to specify the width.
  */
-#showcase3 div:nth-of-type(1) {flex-basis: 100px;}
+#showcase3 div:nth-of-type(1) {flex-basis: 25px;}
 #showcase3 div:nth-of-type(2) {flex-basis: 50px;}
-#showcase3 div:nth-of-type(3) {flex-basis: 150px;}
+#showcase3 div:nth-of-type(3) {flex-basis: 75px;}
 
 /*
   NOTE: You can also use the 'min-width' declaration to specify the initial width of an item.
