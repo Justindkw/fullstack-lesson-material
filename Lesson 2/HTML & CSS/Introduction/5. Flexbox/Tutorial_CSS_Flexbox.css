@@ -21,13 +21,13 @@
 
 #showcase2 {
   width: 500px;
-  height: 57px;
+  height: 53px;
   border: 5px solid black;
 }
 
 #showcase3 {
-  width: 341px;
-  height: 57px;
+  width: 216px;
+  height: 53px;
   border: 5px solid black;
 }
 
@@ -36,7 +36,7 @@ div.sample {
   width: 100px;
   height: 50px;
   background-color: lightgreen;
-  border: 5px solid green;
+  border: 3px solid green;
 }
 
 div.sample_align_items_1 {
@@ -201,9 +201,9 @@ div.sample_align_items_3 {
   The DEFAULT value is 'auto', meaning the item's width is the length of the container.
   You can use a number to specify the width.
  */
-#showcase3 div:nth-of-type(1) {flex-basis: 100px;}
+#showcase3 div:nth-of-type(1) {flex-basis: 25px;}
 #showcase3 div:nth-of-type(2) {flex-basis: 50px;}
-#showcase3 div:nth-of-type(3) {flex-basis: 150px;}
+#showcase3 div:nth-of-type(3) {flex-basis: 75px;}
 
 /*
   NOTE: You can also use the 'min-width' declaration to specify the initial width of an item.
