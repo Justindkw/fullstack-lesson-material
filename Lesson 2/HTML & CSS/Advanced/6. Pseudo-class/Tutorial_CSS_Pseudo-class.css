@@ -20,11 +20,16 @@
 
 
 /* In HOVER, you can change the element's behaviour when you hover your mouse onto it. */
-a.highlight:hover {
+button:hover {
   color: orange;
 }
 
 /* In ACTIVE, you can change the element's behaviour when you click it. */
-a.highlight:active {
-  color: green;
+button:active {
+  background-color: lightblue;
+}
+
+/* In FOCUS, the element's behaviour is maintained until you click away from it. */
+button:focus {
+  color: blue;
 }
