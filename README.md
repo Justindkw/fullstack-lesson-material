@@ -13,6 +13,7 @@ __Lesson 1: Introduction to JavaScript__
 
 __Lesson 2: Introduction to Front-end (HTML & CSS)__
 
+__Lesson 3: Setting up the project__
 
 ---
 
