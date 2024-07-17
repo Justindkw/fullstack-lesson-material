@@ -70,6 +70,7 @@ To configure firebase in the project, follow the steps below:
       - Storage: Configure a security rules file for Cloud Storage
    2. Continue the initialization with the default settings.
       - **IMPORTANT: If the prompt asks "What do you want to use as your public directory?" Type "out" in the command prompt.**
+      - - **IMPORTANT: If the prompt asks "Configure as a single-page app?" Select "Yes" in the command prompt.**
       - NOTE: When the console prompts you "Set up automatic builds and deploys with GitHub?" select "No".
       But if you wish to set up GitHub Action within your project, select "Yes".
 
