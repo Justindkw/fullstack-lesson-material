@@ -72,7 +72,6 @@ To configure firebase in the project, follow the steps below:
       - **IMPORTANT: If the prompt asks "What do you want to use as your public directory?" Type "out" in the command prompt.**
       - NOTE: When the console prompts you "Set up automatic builds and deploys with GitHub?" select "No".
       But if you wish to set up GitHub Action within your project, select "Yes".
-6.
 
 ---
 
@@ -93,7 +92,6 @@ To do so, follow the steps below:
 3. Navigate to `config.js` file in the firebase folder. The path is `./src/app/firebase`.
 4. Transfer all the data in the `firebaseConfig` block to the `.env.local` file and replace them with the format of `process.env.{keyName}`.
    - NOTE: Make sure that each variable has `NEXT_PUBLIC` in front of them, or else Next.js won't be able to read it.
-
 
 ---
 
