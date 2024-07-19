@@ -1,7 +1,6 @@
 
 export default function Home() {
     return (
-
         <div className="flex items-center justify-center min-h-screen">
             <div className="w-80 p-12 rounded shadow-md bg-drawer">
                 <h2 className="mb-4 text-4xl font-bold text-center flex justify-center items-center">Fiscord</h2>
