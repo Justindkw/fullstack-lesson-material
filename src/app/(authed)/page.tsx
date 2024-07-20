@@ -6,10 +6,10 @@ import { signOut } from "firebase/auth";
 import {useRouter} from "next/navigation";
 import Button from "@/app/components/Button";
 import {addDoc, collection} from "@firebase/firestore";
-import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
+import {useCollectionData} from "react-firebase-hooks/firestore";
 
 export default function Home() {
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const router = useRouter();
     const [text, setText] = useState("");
     const [messages] = useCollectionData(collection(firestore, "messages"));
@@ -27,10 +27,10 @@ export default function Home() {
             router.push("/login");
             signOut(auth);
         }}/>
-        {messages?.map((data) => {
+        {messages?.map((data, i) => {
             const {text} = data as {text: string};
             return (
-                <p>
+                <p key={i}>
                     {text}
                 </p>
             )
