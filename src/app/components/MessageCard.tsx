@@ -1,6 +1,5 @@
 import moment from "moment";
 import React from "react";
-import {MessageInterface} from "@/app/lib/interfaces";
 import {Timestamp} from "@firebase/firestore";
 
 interface MessageCardInterface {
