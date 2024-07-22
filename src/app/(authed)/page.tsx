@@ -19,7 +19,7 @@ import InviteCard from "@/app/components/InviteCard";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {InviteInterface, UserInterface} from "@/app/lib/interfaces";
 
-export default function Home() {
+export default function AddFriends() {
     const [user] = useAuthState(auth);
     const uid = user?.uid ?? "";
     const [inviteEmail, setInviteEmail] = useState('');

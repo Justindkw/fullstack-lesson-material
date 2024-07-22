@@ -2,14 +2,13 @@
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, firestore} from "@/app/firebase/config";
 import React, {useState} from "react";
-import {useRouter} from "next/navigation";
 import {addDoc, collection, orderBy} from "@firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import MessageCard from "@/app/components/MessageCard";
 import {MessageInterface} from "@/app/lib/interfaces";
 import {serverTimestamp, query} from "@firebase/firestore";
 
-export default function Home() {
+export default function GlobalChatSpace() {
     const [user] = useAuthState(auth);
     const [text, setText] = useState("");
     const [messages] = useCollectionData(query(collection(firestore, "messages"), orderBy("timestamp", "desc")));
