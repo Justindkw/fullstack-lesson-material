@@ -1,15 +1,25 @@
 'use client'
-import {auth} from "@/app/firebase/config";
+import {auth, firestore} from "@/app/firebase/config";
 import {useSignInWithGoogle} from "react-firebase-hooks/auth";
 import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
+import {UserInterface} from "@/app/lib/interfaces";
+import {doc, setDoc} from "@firebase/firestore";
 
 export default function Home() {
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, cred, loading, error] = useSignInWithGoogle(auth);
     const router = useRouter();
     const signIn = async () => {
-        const cred = await signInWithGoogle();
-        if (cred) {
+        const res = await signInWithGoogle();
+        const {uid, displayName, photoURL, email} = res?.user!;
+        const docData = {
+            uid,
+            displayName,
+            photoURL,
+            email
+        } as UserInterface;
+        await setDoc(doc(firestore, "users", uid), docData, {merge: true});
+        if (res) {
             router.push("/");
         }
     }

@@ -1,6 +1,5 @@
 import moment from "moment";
 import React from "react";
-import {MessageInterface} from "@/app/lib/interfaces";
 import {Timestamp} from "@firebase/firestore";
 
 interface MessageCardInterface {
@@ -17,7 +16,7 @@ export default function MessageCard({photoURL, text, displayName, timestamp}: Me
             <div className="flex flex-col grow">
                 <span className="inline-block">
                     <span className="mr-1">{displayName}</span>
-                    <span className="text-tertiary-text text-xs">{moment(timestamp?.toDate()).format("DD/MM/YYYY LT")}</span>
+                    <span className="text-tertiary-text text-xs">{moment(timestamp.toDate()).format("DD/MM/YYYY LT")}</span>
                 </span>
                 {text}
             </div>

@@ -3,8 +3,9 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "@/app/firebase/config";
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
+import SideBar from "@/app/components/SideBar";
 
-export default function ({children,}: Readonly<{ children: React.ReactNode; }>) {
+export default function AuthLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
 
     const [user, loading] = useAuthState(auth);
     const router = useRouter();
@@ -15,5 +16,8 @@ export default function ({children,}: Readonly<{ children: React.ReactNode; }>) 
         }
     }, [loading, user])
 
-    return (!loading && user) && children;
+    return (!loading && user) && <main className="flex">
+        <SideBar/>
+        {children}
+    </main>;
 }
