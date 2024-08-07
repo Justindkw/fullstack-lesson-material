@@ -15,29 +15,30 @@ export default function SideBar() {
     const searchParams = useSearchParams();
     const router = useRouter();
     return (
-        <section className="min-w-60 max-w-80 h-screen bg-secondary justify-between flex flex-col">
-            <div>
-                <header className="border-tertiary border-b h-10 min-h-10">
-                    <Link
-                        className={"flex items-center justify-center p-2 hover:bg-hover-l active:bg-active-l text-tertiary-text hover:text-secondary-text active:text-white " + (searchParams.has("id") ? "" : "bg-active-l text-white")}
-                        href="/"
-                    >
-                        <img src="/icons/invite.png" alt="invite" className="w-6 h-6 mr-3"/>
-                        <p>Invites</p>
-                    </Link>
-                </header>
-                {(userData as UserInterface)?.friends?.map((fid) => {
+        <aside className="w-3/12 min-w-60 max-w-80 h-screen bg-secondary flex flex-col">
+            <div className="border-tertiary border-b h-10 min-h-10">
+                <Link
+                    className={"flex items-center justify-center p-2 hover:bg-hover-l active:bg-active-l text-tertiary-text hover:text-secondary-text active:text-white " + (searchParams.has("id") ? "" : "bg-active-l text-white")}
+                    href="/"
+                >
+                    <img src="/icons/invite.png" alt="invite" className="w-6 h-6 mr-3"/>
+                    <p>Invites</p>
+                </Link>
+            </div>
+            <div className="flex flex-col grow gap-1 p-4">
+            <h4 className="text-xs font-mono text-tertiary-text">DIRECT MESSAGES</h4>
+            {(userData as UserInterface)?.friends?.map((fid) => {
 
-                    return (
-                        <FriendCard key={fid} fid={fid} uid={user?.uid!} isActive={searchParams.get("id") == fid}/>
-                    )
-                })}
+                return (
+                    <FriendCard key={fid} fid={fid} uid={user?.uid!} isActive={searchParams.get("id") == fid}/>
+                )
+            })}
             </div>
             <Button text="Log out" style="px-4 py-1 m-4" onClick={() => {
                 router.push("/login");
                 signOut(auth);
             }}/>
-        </section>
+        </aside>
     )
 }
 

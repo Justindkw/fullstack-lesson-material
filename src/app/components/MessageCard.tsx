@@ -2,6 +2,8 @@ import moment from "moment";
 import React from "react";
 import {Timestamp} from "@firebase/firestore";
 import {FileInterface} from "@/app/lib/interfaces";
+import Link from "next/link";
+import {prettyByteSize} from "@/app/lib/utils";
 
 interface MessageCardInterface {
     displayName: string,
@@ -21,7 +23,18 @@ export default function MessageCard({photoURL, text, displayName, timestamp, fil
                     <span className="text-tertiary-text text-xs">{moment(timestamp.toDate()).format("DD/MM/YYYY LT")}</span>
                 </span>
                 {text}
-                {file && file.type == "image" && <img src={file.url} alt={"image"} className="max-w-60 max-h-60 object-contain"/>}
+                {file && (file.type == "image" ?
+                    <img src={file.url} alt={"image"} className="max-w-60 max-h-60 object-contain"/> :
+                    <div className="flex bg-secondary rounded-lg min-w-60 p-2 gap-2 mt-2 w-min">
+                        <img src="/icons/file.png" alt="file" className="object-contain rounded-l w-10"/>
+                        <div>
+                            <Link
+                                className="text-blurple hover:text-blurple-hover hover:underline active:text-blurple-active"
+                                href={file?.url!}>{file?.name}</Link>
+                            <p className="text-sm">{prettyByteSize(file?.size ?? 0)}</p>
+                        </div>
+                    </div>)
+                }
             </div>
         </li>
     )

@@ -35,14 +35,14 @@ export default function DM() {
             await uploadFile(ref(storage, path), file);
             setFile(undefined);
             const url = await getDownloadURL(ref(storage, path));
-            doc.file = {url, type, name: file.name}
+            doc.file = {url, type, name: file.name, size: file.size}
         }
 
         await addDoc(collection(firestore, "dm", dmId, "messages"), doc);
     }
     return (
         <section className="h-screen flex flex-col w-full">
-            <header className="border-tertiary border-b h-12 min-h-10 flex items-center justify-between px-5">
+            <header className="border-tertiary border-b h-10 min-h-10 flex items-center justify-between px-5">
               <span className="flex">
                   <img src={friendData?.photoURL} alt={friendData?.displayName!} className="h-6 w-6 rounded-full mr-3 my-auto"/>
                   <p>{friendData?.displayName}</p>
@@ -58,10 +58,10 @@ export default function DM() {
                     )
                 })}
             </ol>
-            <div>
-                <form onSubmit={sendMessage} className="flex p-2 bg-main-text-box rounded-xl m-4">
-                    {file && <FileBox file={file}/>}
-                    <label htmlFor="fileButton" className="group hover:cursor-pointer">
+            <div className="flex flex-col bg-main-text-box rounded-xl mx-4 mb-4">
+                {file && <FileBox file={file} delFile={() => setFile(undefined)}/>}
+                <form onSubmit={sendMessage} className="flex p-2">
+                    <label htmlFor="fileButton" className="mr-2 group hover:cursor-pointer">
                         <img src="/icons/upload.png" alt="upload" className="w-6 h-6 group-hover:brightness-125"/>
                     </label>
                     <input type="file" className="invisible w-0" id="fileButton" onChange={(e) => setFile(e.target.files?.[0])}/>
@@ -74,13 +74,24 @@ export default function DM() {
     );
 }
 
-function FileBox({file}: {file: File}) {
+function FileBox({file, delFile}: { file: File, delFile: () => void }) {
     return (
-        <div>
-            <p>{file.name}</p>
-            {file.type == "image" ? <img src={URL.createObjectURL(file)} alt={file.name} className="w-20 h-20"/> :
-                <img src={"icons/file.png"} alt={file.name} className="w-20 h-20"/>}
-
-        </div>
-    )
+        <>
+            <div className="w-72 h-72 rounded-xl m-4 bg-primary flex flex-col justify-center items-center relative">
+                <button className="group" onClick={delFile}>
+                    <img src="/icons/bin.png" alt="bin"
+                         className="w-6 h-6 absolute top-0 right-0 -m-2 group-hover:scale-110"/>
+                </button>
+                {
+                    file.type.includes("image") ?
+                        <img src={URL.createObjectURL(file)} alt={file.name}
+                             className="object-contain rounded-xl w-60 h-60 m-2 bg-line"/> :
+                        <img src="/icons/file.png" alt={file.name}
+                             className="object-contain rounded-xl w-24 h-24 m-20 bg-line"/>
+                }
+                <p>{file.name}</p>
+            </div>
+            <hr className="text-line rounded-full mx-2"/>
+        </>
+    );
 }

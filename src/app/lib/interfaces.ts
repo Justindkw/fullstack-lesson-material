@@ -9,7 +9,8 @@ export interface MessageInterface {
 export interface FileInterface {
     url: string,
     type: "file" | "image",
-    name: string
+    name: string,
+    size: number
 }
 
 export interface UserInterface {
