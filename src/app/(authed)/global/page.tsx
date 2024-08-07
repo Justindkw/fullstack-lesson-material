@@ -26,7 +26,7 @@ export default function Home() {
         await addDoc(collection(firestore, "messages"), doc);
     }
     return (
-        <section className="h-screen flex flex-col">
+        <section className="h-screen flex flex-col w-full">
             <header className="border-tertiary border-b h-12 min-h-10 flex items-center justify-between px-5">
               <span className="flex">
                   <img src={user?.photoURL!} alt={user?.displayName!} className="h-6 w-6 rounded-full mr-3 my-auto"/>

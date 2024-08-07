@@ -2,7 +2,14 @@ import {Timestamp} from "@firebase/firestore";
 
 export interface MessageInterface {
     text: string,
-    timestamp: Timestamp
+    timestamp: Timestamp,
+    file?: FileInterface
+}
+
+export interface FileInterface {
+    url: string,
+    type: "file" | "image",
+    name: string
 }
 
 export interface UserInterface {
@@ -13,9 +20,14 @@ export interface UserInterface {
     friends: string[]
 }
 
+
 export interface RequestInterface {
     senderID: string,
-    senderDisplayName: string,
+    senderEmail: string,
+    senderName: string,
+    senderPhotoURL: string,
     receiverID: string,
-    receiverDisplayName: string,
+    receiverEmail: string,
+    receiverName: string,
+    receiverPhotoURL: string,
 }
