@@ -1,6 +1,6 @@
 import {auth, firestore} from "@/app/firebase/config";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {useDocumentData, useDocumentDataOnce} from "react-firebase-hooks/firestore";
+import {useDocumentData} from "react-firebase-hooks/firestore";
 import {arrayRemove, doc, updateDoc} from "@firebase/firestore";
 import {UserInterface} from "@/app/lib/interfaces";
 import Button from "@/app/components/Button";
@@ -27,12 +27,8 @@ export default function SideBar() {
             </div>
             <div className="flex flex-col grow gap-1 p-4">
             <h4 className="text-xs font-mono text-tertiary-text">DIRECT MESSAGES</h4>
-            {(userData as UserInterface)?.friends?.map((fid) => {
-
-                return (
-                    <FriendCard key={fid} fid={fid} uid={user?.uid!} isActive={searchParams.get("id") == fid}/>
-                )
-            })}
+            {(userData as UserInterface)?.friends?.map((fid) =>
+                <FriendCard key={fid} fid={fid} uid={user?.uid!} isActive={searchParams.get("id") == fid}/>)}
             </div>
             <Button text="Log out" style="px-4 py-1 m-4" onClick={() => {
                 router.push("/login");

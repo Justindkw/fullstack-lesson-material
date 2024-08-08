@@ -1,9 +1,9 @@
 'use client'
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, firestore, storage} from "@/app/firebase/config";
-import React, {useState} from "react";
-import {addDoc, collection, doc, orderBy} from "@firebase/firestore";
-import {useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
+import React, {createRef, RefObject, useEffect, useRef, useState} from "react";
+import {addDoc, collection, deleteDoc, doc, DocumentData, orderBy, updateDoc} from "@firebase/firestore";
+import {useCollection, useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
 import MessageCard from "@/app/components/MessageCard";
 import {MessageInterface} from "@/app/lib/interfaces";
 import {serverTimestamp, query} from "@firebase/firestore";
@@ -18,15 +18,37 @@ export default function DM() {
     const [text, setText] = useState("");
     const [file, setFile] = useState<File | undefined>(undefined);
     const dmId = [searchParams.get("id"), user?.uid].toSorted().join("-");
-    const [messages] = useCollectionData(query(collection(firestore, "dm", dmId, "messages"), orderBy("timestamp", "desc")), {snapshotOptions: {serverTimestamps: "estimate"}});
+    const [messages] = useCollection(query(collection(firestore, "dm", dmId, "messages"), orderBy("timestamp", "desc")));
     const [uploadFile] = useUploadFile();
+    const textBox = createRef<HTMLInputElement>();
+    const [editMessageId, setEditMessageId] = useState("");
+    const [editMessage, setEditMessage] = useState("");
+    const editBoxes = useRef<Map<string, RefObject<HTMLInputElement>>>(new Map());
+
+    useEffect(() => {
+        function handleKeyDown(ev: KeyboardEvent) {
+            editMessageId == "" ? textBox.current?.focus() : editBoxes?.current.get(editMessageId)?.current?.focus();
+            if(editMessageId && ev.key == "Escape") {
+                setEditMessageId("");
+            }
+        }
+        window.addEventListener("keydown", handleKeyDown)
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        }
+    });
 
     const sendMessage = async (event: React.FormEvent) => {
         event.preventDefault();
         setText("");
+        const {displayName, photoURL, uid} = user!;
         const doc = {
+            displayName,
+            photoURL,
+            uid,
             text,
-            timestamp: serverTimestamp()
+            timestamp: serverTimestamp(),
+            edited: false
         } as MessageInterface;
 
         if (file) {
@@ -40,6 +62,16 @@ export default function DM() {
 
         await addDoc(collection(firestore, "dm", dmId, "messages"), doc);
     }
+
+    const deleteMessage = async (mid: string) => {
+        await deleteDoc(doc(firestore, "dm", dmId, "messages", mid));
+    }
+
+    const resendMessage = async (docData: DocumentData, mid: string, text: string) => {
+        await updateDoc(doc(firestore, "dm", dmId, "messages", mid), {...docData, text, edited: true});
+        setEditMessageId("");
+    }
+
     return (
         <section className="h-screen flex flex-col w-full">
             <header className="border-tertiary border-b h-10 min-h-10 flex items-center justify-between px-5">
@@ -49,13 +81,16 @@ export default function DM() {
               </span>
             </header>
             <ol className="flex flex-col-reverse flex-grow overflow-y-auto">
-                {messages?.map((data, i) => {
-                    const {text, timestamp, file} = data as MessageInterface;
-                    const {displayName, photoURL} = user!;
-                    return (
-                        <MessageCard key={i} text={text} displayName={displayName!} photoURL={photoURL!}
-                                     timestamp={timestamp} file={file}/>
-                    )
+                {messages?.docs.map((res, i) => {
+                    const messageData = res.data({serverTimestamps: 'estimate'}) as MessageInterface;
+                    const id = res.id;
+                    const ref = createRef<HTMLInputElement>();
+                    editBoxes.current.set(id, ref);
+                    return <MessageCard key={id} messageData={messageData as MessageInterface}
+                                        hasOwnership={messageData?.uid == user?.uid} delFn={() => deleteMessage(id)}
+                                        enableEdit={() => setEditMessageId(id)} isEdit={editMessageId == id}
+                                        editRef={ref} setEditMessage={setEditMessage} editMessage={editMessage}
+                                        resendFn={text => resendMessage(messageData, id, text)}/>
                 })}
             </ol>
             <div className="flex flex-col bg-main-text-box rounded-xl mx-4 mb-4">
@@ -66,7 +101,8 @@ export default function DM() {
                     </label>
                     <input type="file" className="invisible w-0" id="fileButton" onChange={(e) => setFile(e.target.files?.[0])}/>
                     <input type="text" className="appearance-none outline-none bg-main-text-box flex grow" name="text"
-                           autoComplete="off" value={text} onChange={(e) => setText(e.target.value)}/>
+                           autoComplete="off" value={text} ref={textBox}
+                           onChange={(e) => setText(e.target.value)}/>
                     <input type="submit" className="invisible w-0"/>
                 </form>
             </div>
