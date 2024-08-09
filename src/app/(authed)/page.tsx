@@ -2,11 +2,12 @@
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, firestore} from "@/app/firebase/config";
 import Button from "@/app/components/Button";
-import {FormEvent, useState} from "react";
+import {FormEvent, useContext, useState} from "react";
 import {arrayUnion, collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where} from "@firebase/firestore";
 import {RequestInterface, UserInterface} from "@/app/lib/interfaces";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import InviteCard from "@/app/components/InviteCard";
+import {SidebarContext} from "@/app/lib/contexts";
 
 export default function Home() {
     const [user] = useAuthState(auth);
@@ -14,6 +15,8 @@ export default function Home() {
     const [incomingRequests] = useCollectionData(query(collection(firestore, "requests"), where("receiverID", "==", user?.uid!)));
     const [isError, setIsError] = useState(false);
     const [outGoingRequests] = useCollectionData(query(collection(firestore, "requests"), where("senderID", "==", user?.uid!)));
+    const sideBarState = useContext(SidebarContext);
+
     const sendRequest = async (e: FormEvent) => {
         e.preventDefault();
         setIsError(false);
@@ -49,8 +52,11 @@ export default function Home() {
         await updateDoc(doc(firestore, "users", receiverID), {friends: arrayUnion(senderID)});
     }
   return (
-      <div className="min-h-screen flex flex-col grow p-4 gap-2 mt-4 sm:mt-0">
-          <article className="flex flex-col gap-2 mb-2">
+      <div className="h-full flex flex-col grow p-4 gap-2">
+          <article className="flex flex-col gap-2 mb-2 relative">
+              <button className="absolute top-0 left-0 group sm:hidden" onClick={() => sideBarState.setIsOpen(true)}>
+                  <img src="/icons/left-arrow.png" alt="back" className="w-6 h-6 group-hover:brightness-125"/>
+              </button>
               <h2 className="font-semibold mx-auto sm:mx-0">ADD FRIEND</h2>
               <p className="text-tertiary-text text-sm mx-auto sm:mx-0">You can add friends with their account
                   email.</p>

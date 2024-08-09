@@ -1,5 +1,6 @@
 import "./globals.css";
 import {GGSans} from "../../public/fonts/fonts";
+import {SidebarContextProvider} from "@/app/lib/contexts";
 
 
 export default function RootLayout({
@@ -17,7 +18,11 @@ export default function RootLayout({
       <link rel="icon" href="favicon.ico" />
       <title>Twoscrod</title>
     </head>
-    <body className={`${GGSans.className} bg-primary text-primary-text`}>{children}</body>
+    <body className={`${GGSans.className} bg-primary text-primary-text w-screen h-[calc(100svh)]`}>
+    <SidebarContextProvider>
+      {children}
+    </SidebarContextProvider>
+    </body>
     </html>
   );
 }

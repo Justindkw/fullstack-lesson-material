@@ -38,7 +38,7 @@ export default function MessageCard(
                                autoComplete="off"
                                value={editMessage} onChange={(e) => setEditMessage(e.target.value)}
                                ref={editRef} name="text"/>
-                        <input className="invisible w-0" type="submit"/>
+                        <input className="hidden" type="submit"/>
                     </form>
                     :
                     <p>
@@ -66,7 +66,7 @@ export default function MessageCard(
             </div>
             { hasOwnership &&
                 <div
-                    className="flex gap-2 absolute -top-2 right-8 invisible group-hover:visible bg-primary p-2 border border-secondary rounded-lg">
+                    className="flex sm:gap-2 gap-10 absolute -top-2 right-8 invisible group-hover:visible bg-primary p-2 border border-secondary rounded-lg">
                     <img src="/icons/edit.png" alt="edit" onClick={() => {
                         setEditMessage(text);
                         enableEdit();

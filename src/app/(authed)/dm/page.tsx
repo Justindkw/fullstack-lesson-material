@@ -1,15 +1,16 @@
 'use client'
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, firestore, storage} from "@/app/firebase/config";
-import React, {createRef, RefObject, useEffect, useRef, useState} from "react";
+import React, {createRef, RefObject, useContext, useEffect, useRef, useState} from "react";
 import {addDoc, collection, deleteDoc, doc, DocumentData, orderBy, updateDoc} from "@firebase/firestore";
-import {useCollection, useCollectionData, useDocumentData} from "react-firebase-hooks/firestore";
+import {useCollection, useDocumentData} from "react-firebase-hooks/firestore";
 import MessageCard from "@/app/components/MessageCard";
 import {MessageInterface} from "@/app/lib/interfaces";
 import {serverTimestamp, query} from "@firebase/firestore";
 import {useSearchParams} from "next/navigation";
 import {useUploadFile} from "react-firebase-hooks/storage";
 import {getDownloadURL, ref} from "@firebase/storage";
+import {SidebarContext} from "@/app/lib/contexts";
 
 export default function DM() {
     const [user] = useAuthState(auth);
@@ -24,6 +25,7 @@ export default function DM() {
     const [editMessageId, setEditMessageId] = useState("");
     const [editMessage, setEditMessage] = useState("");
     const editBoxes = useRef<Map<string, RefObject<HTMLInputElement>>>(new Map());
+    const sideBarState = useContext(SidebarContext);
 
     useEffect(() => {
         function handleKeyDown(ev: KeyboardEvent) {
@@ -73,10 +75,14 @@ export default function DM() {
     }
 
     return (
-        <section className="h-screen flex flex-col w-full">
-            <header className="border-tertiary border-b h-10 min-h-10 flex items-center justify-between px-5">
-              <span className="flex">
-                  <img src={friendData?.photoURL} alt={friendData?.displayName!} className="h-6 w-6 rounded-full mr-3 my-auto"/>
+        <article className="h-full flex flex-col w-full">
+            <header className="border-tertiary border-b h-10 min-h-10 flex items-center sm:pl-5">
+                <button className="px-2 group sm:hidden" onClick={() => sideBarState.setIsOpen(true)}>
+                    <img src="/icons/left-arrow.png" alt="back" className="w-6 h-6 group-hover:brightness-125"/>
+                </button>
+                <span className="flex">
+                  <img src={friendData?.photoURL} alt={friendData?.displayName!}
+                       className="h-6 w-6 rounded-full mr-3 my-auto"/>
                   <p>{friendData?.displayName}</p>
               </span>
             </header>
@@ -86,10 +92,10 @@ export default function DM() {
                     const id = res.id;
                     const ref = createRef<HTMLInputElement>();
                     editBoxes.current.set(id, ref);
-                    return <MessageCard key={id} messageData={messageData as MessageInterface}
+                    return <MessageCard key={id} messageData={messageData as MessageInterface} editMessage={editMessage}
                                         hasOwnership={messageData?.uid == user?.uid} delFn={() => deleteMessage(id)}
-                                        enableEdit={() => setEditMessageId(id)} isEdit={editMessageId == id}
-                                        editRef={ref} setEditMessage={setEditMessage} editMessage={editMessage}
+                                        enableEdit={() => setEditMessageId(editMessageId == id ? "" : id)}
+                                        isEdit={editMessageId == id} editRef={ref} setEditMessage={setEditMessage}
                                         resendFn={text => resendMessage(messageData, id, text)}/>
                 })}
             </ol>
@@ -99,21 +105,21 @@ export default function DM() {
                     <label htmlFor="fileButton" className="mr-2 group hover:cursor-pointer">
                         <img src="/icons/upload.png" alt="upload" className="w-6 h-6 group-hover:brightness-125"/>
                     </label>
-                    <input type="file" className="invisible w-0" id="fileButton" onChange={(e) => setFile(e.target.files?.[0])}/>
+                    <input type="file" className="hidden" id="fileButton" onChange={(e) => setFile(e.target.files?.[0])}/>
                     <input type="text" className="appearance-none outline-none bg-main-text-box flex grow" name="text"
                            autoComplete="off" value={text} ref={textBox}
                            onChange={(e) => setText(e.target.value)}/>
-                    <input type="submit" className="invisible w-0"/>
+                    <input type="submit" className="hidden"/>
                 </form>
             </div>
-        </section>
+        </article>
     );
 }
 
 function FileBox({file, delFile}: { file: File, delFile: () => void }) {
     return (
         <>
-            <div className="w-72 h-72 rounded-xl m-4 bg-primary flex flex-col justify-center items-center relative">
+            <div className="w-64 h-64 sm:w-72 sm:h-72 rounded-xl m-4 bg-primary flex flex-col justify-center items-center relative">
                 <button className="group" onClick={delFile}>
                     <img src="/icons/bin.png" alt="bin"
                          className="w-6 h-6 absolute top-0 right-0 -m-2 group-hover:scale-110"/>
@@ -121,9 +127,9 @@ function FileBox({file, delFile}: { file: File, delFile: () => void }) {
                 {
                     file.type.includes("image") ?
                         <img src={URL.createObjectURL(file)} alt={file.name}
-                             className="object-contain rounded-xl w-60 h-60 m-2 bg-line"/> :
+                             className="object-contain rounded-xl h-52 w-52 sm:w-60 sm:h-60 sm:m-2 bg-line"/> :
                         <img src="/icons/file.png" alt={file.name}
-                             className="object-contain rounded-xl w-24 h-24 m-20 bg-line"/>
+                             className="object-contain rounded-xl w-20 h-20 m-4 sm:w-24 sm:h-24 sm:m-20 bg-line"/>
                 }
                 <p>{file.name}</p>
             </div>
