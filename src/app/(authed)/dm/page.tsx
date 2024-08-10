@@ -26,7 +26,6 @@ export default function DM() {
     const [editMessage, setEditMessage] = useState("");
     const editBoxes = useRef<Map<string, RefObject<HTMLInputElement>>>(new Map());
     const sideBarState = useContext(SidebarContext);
-
     useEffect(() => {
         function handleKeyDown(ev: KeyboardEvent) {
             editMessageId == "" ? textBox.current?.focus() : editBoxes?.current.get(editMessageId)?.current?.focus();
@@ -34,7 +33,7 @@ export default function DM() {
                 setEditMessageId("");
             }
         }
-        window.addEventListener("keydown", handleKeyDown)
+        window.addEventListener("keydown", handleKeyDown);
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         }
