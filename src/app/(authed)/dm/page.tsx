@@ -173,18 +173,19 @@ export default function DM() {
             <div className="flex flex-col bg-main-text-box rounded-xl mx-4 mb-4">
                 {file && <FileBox file={file} delFile={() => setFile(undefined)}/>}
                 <form onSubmit={sendMessage} className="flex p-2">
-                    <label htmlFor="fileButton" className="mr-2 group hover:cursor-pointer">
-                        <img src="/icons/upload.png" alt="upload" className="w-6 h-6 group-hover:brightness-125"/>
-                    </label>
-                    <input type="file" className="hidden" id="fileButton" onChange={(e) => {
-                        setFile(e.target.files?.[0]);
-                        e.target.value = "";
-                    }}/>
+                    {!isUploadingFile && <label htmlFor="fileButton" className="mr-2 group hover:cursor-pointer">
+                        <img src="/icons/upload.png" alt="upload" className="w-6 h-6 group-hover:brightness-125 "/>
+                    </label>}
+                    <input type="file" className="hidden" id="fileButton" disabled={isUploadingFile}
+                           onChange={(e) => {
+                               setFile(e.target.files?.[0]);
+                               e.target.value = "";
+                           }}/>
                     {isUploadingFile && <img className={"flex animate-spin w-4 h-4 mx-1 my-auto"} src="/icons/loading.svg" alt="loading"/>}
                     <input type="text" className="appearance-none outline-none bg-main-text-box flex grow disabled:placeholder:text-disabled"
                            name="text" autoComplete="off" value={text} ref={textBox} disabled={isUploadingFile}
                            onChange={(e) => setText(e.target.value)}/>
-                    <input type="submit" className="hidden"/>
+                    <input type="submit" className="hidden" disabled={isUploadingFile}/>
                 </form>
             </div>
             <Dialog onClose={() => setEnableZoom(false)} open={enableZoom} transition
