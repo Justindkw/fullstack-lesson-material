@@ -14,7 +14,10 @@ export interface FileInterface {
     url: string,
     type: "file" | "image",
     name: string,
-    size: number
+    size: number,
+    width?: number,
+    height?: number,
+    placeholder?: string
 }
 
 export interface UserInterface {
@@ -35,4 +38,9 @@ export interface RequestInterface {
     receiverEmail: string,
     receiverName: string,
     receiverPhotoURL: string,
+}
+
+export interface Dimension {
+    width: number,
+    height: number
 }

@@ -3,6 +3,7 @@ import React, {RefObject} from "react";
 import {MessageInterface} from "@/app/lib/interfaces";
 import Link from "next/link";
 import {prettyByteSize} from "@/app/lib/utils";
+import Image from "next/image";
 
 interface MessageCardInterface {
     messageData: MessageInterface,
@@ -14,20 +15,23 @@ interface MessageCardInterface {
     editRef: RefObject<HTMLInputElement>,
     editMessage: string,
     setEditMessage: (message: string) => void,
+    setZoomImage: () => void,
+    hideProfile: boolean
 }
 
 export default function MessageCard(
-    {messageData, hasOwnership, delFn, resendFn, enableEdit, isEdit, editRef, editMessage, setEditMessage}: MessageCardInterface
+    {messageData, hasOwnership, delFn, resendFn, enableEdit, isEdit, editRef, editMessage, setEditMessage, setZoomImage, hideProfile}: MessageCardInterface
 ) {
     const {photoURL, displayName, timestamp, file, text, edited} = messageData;
     return (
-        <li className="flex my-2 group relative hover:bg-hover-d">
-            <img src={photoURL}  alt={displayName} className="max-w-10 max-h-10 rounded-full mx-4"/>
+        <li className={"flex group relative hover:bg-hover-d " + (hideProfile ? "" : " my-2")}>
+            {!hideProfile ? <img src={photoURL}  alt={displayName} className="max-w-10 max-h-10 rounded-full mx-4"/> : <div className="w-[4.5rem]"/>}
             <div className="flex flex-col grow">
-                <span className="inline-block">
+                {!hideProfile && <span className="inline-block">
                     <span className="mr-1">{displayName}</span>
                     <span className="text-tertiary-text text-xs">{moment(timestamp.toDate()).format("DD/MM/YYYY LT")}</span>
                 </span>
+                }
                 {isEdit ?
                     <form onSubmit={(e) => {
                         e.preventDefault();
@@ -49,9 +53,8 @@ export default function MessageCard(
 
 
                 {file && (file.type == "image" ?
-                    <div className="flex mt-2">
-                        <img src={file.url} alt={file.name} className="max-w-60 max-h-60 object-contain"/>
-                    </div>
+                    <Image src={file.url} alt={file.name} width={file.width} height={file.height} placeholder="blur"
+                           blurDataURL={file.placeholder} onClick={setZoomImage} className="hover:cursor-pointer" loading="lazy"/>
                     :
                     <div className="flex bg-secondary rounded-lg min-w-60 p-2 gap-2 mt-2 w-min">
                         <img src="/icons/file.png" alt="file" className="object-contain rounded-l w-10"/>
