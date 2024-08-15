@@ -2,7 +2,8 @@ import moment from "moment";
 import React, {RefObject} from "react";
 import {MessageInterface} from "@/app/lib/interfaces";
 import Link from "next/link";
-import {prettyByteSize} from "@/app/lib/utils";
+import {prettyByteSize, validURL} from "@/app/lib/utils";
+import Image from "next/image";
 
 interface MessageCardInterface {
     messageData: MessageInterface,
@@ -14,10 +15,11 @@ interface MessageCardInterface {
     editRef: RefObject<HTMLInputElement>,
     editMessage: string,
     setEditMessage: (message: string) => void,
+    setScaledImage: () => void,
 }
 
 export default function MessageCard(
-    {messageData, hasOwnership, delFn, resendFn, enableEdit, isEdit, editRef, editMessage, setEditMessage}: MessageCardInterface
+    {messageData, hasOwnership, delFn, resendFn, enableEdit, isEdit, editRef, editMessage, setEditMessage, setScaledImage}: MessageCardInterface
 ) {
     const {photoURL, displayName, timestamp, file, text, edited} = messageData;
     return (
@@ -42,16 +44,22 @@ export default function MessageCard(
                     </form>
                     :
                     <p>
-                        {text}
+                        {text && (validURL(text) ?
+                        <Link
+                            className="text-blurple hover:text-blurple-hover hover:underline active:text-blurple-active"
+                            href={text}
+                        >{text}</Link>
+                        :
+                        <p>{text}</p>
+                        )}
                         {edited && <span className="text-xs text-tertiary-text"> (edited)</span>}
                     </p>
                 }
-
-
                 {file && (file.type == "image" ?
-                    <div className="flex mt-2">
-                        <img src={file.url} alt={file.name} className="max-w-60 max-h-60 object-contain"/>
-                    </div>
+                        <Image onClick={setScaledImage} src={file.url} alt={file.name} width={file.width}
+                               height={file.height} placeholder="blur" blurDataURL={file?.placeholder}
+                               className="mt-2 hover:cursor-pointer"
+                        />
                     :
                     <div className="flex bg-secondary rounded-lg min-w-60 p-2 gap-2 mt-2 w-min">
                         <img src="/icons/file.png" alt="file" className="object-contain rounded-l w-10"/>

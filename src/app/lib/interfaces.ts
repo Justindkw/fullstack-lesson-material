@@ -14,7 +14,10 @@ export interface FileInterface {
     url: string,
     type: "file" | "image",
     name: string,
-    size: number
+    size: number,
+    placeholder?: string,
+    width?: number,
+    height?: number,
 }
 
 export interface UserInterface {

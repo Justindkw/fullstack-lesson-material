@@ -11,6 +11,9 @@ import {useSearchParams} from "next/navigation";
 import {useUploadFile} from "react-firebase-hooks/storage";
 import {getDownloadURL, ref} from "@firebase/storage";
 import {SidebarContext} from "@/app/lib/contexts";
+import {fetchBlurImage, getImageSize} from "@/app/lib/utils";
+import {Dialog, DialogBackdrop, DialogPanel} from "@headlessui/react";
+import Link from "next/link";
 
 export default function DM() {
     const [user] = useAuthState(auth);
@@ -26,6 +29,10 @@ export default function DM() {
     const [editMessage, setEditMessage] = useState("");
     const editBoxes = useRef<Map<string, RefObject<HTMLInputElement>>>(new Map());
     const sideBarState = useContext(SidebarContext);
+    const [isUploadingFile, setIsUploadingFile] = useState(false);
+    const [scaledImage, setScaledImage] = useState<string | undefined>(undefined);
+    const [enableImageDialog, setEnableImageDialog] = useState(false);
+
     useEffect(() => {
         function handleKeyDown(ev: KeyboardEvent) {
             editMessageId == "" ? textBox.current?.focus() : editBoxes?.current.get(editMessageId)?.current?.focus();
@@ -41,6 +48,9 @@ export default function DM() {
 
     const sendMessage = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (text.length == 0 && file == undefined) {
+            return
+        }
         setText("");
         const {displayName, photoURL, uid} = user!;
         const doc = {
@@ -53,12 +63,16 @@ export default function DM() {
         } as MessageInterface;
 
         if (file) {
+            setIsUploadingFile(true);
             const type = file.type.includes("image") ? "image" : "file";
             const path = `${type}/${dmId}/${file.name}`
-            await uploadFile(ref(storage, path), file);
+            const tile = file
             setFile(undefined);
+            await uploadFile(ref(storage, path), tile);
+            const {width, height} = await getImageSize(240, tile);
             const url = await getDownloadURL(ref(storage, path));
-            doc.file = {url, type, name: file.name, size: file.size}
+            doc.file = {url, type, name: tile.name, size: tile.size, width, height, placeholder: await fetchBlurImage(URL.createObjectURL(tile))}
+            setIsUploadingFile(false);
         }
 
         await addDoc(collection(firestore, "dm", dmId, "messages"), doc);
@@ -83,9 +97,18 @@ export default function DM() {
                   <img src={friendData?.photoURL} alt={friendData?.displayName!}
                        className="h-6 w-6 rounded-full mr-3 my-auto"/>
                   <p>{friendData?.displayName}</p>
-              </span>
+                </span>
             </header>
             <ol className="flex flex-col-reverse flex-grow overflow-y-auto">
+                {
+                    isUploadingFile && <div className="flex mt-4">
+                    <div className="bg-secondary w-10 h-10 rounded-full mx-4 animate-pulse"/>
+                    <div className="flex flex-col gap-2">
+                        <div className="bg-secondary w-28 h-5 rounded-full animate-pulse"/>
+                        <div className="bg-secondary w-52 h-52 rounded-xl animate-pulse"/>
+                    </div>
+                </div>
+                }
                 {messages?.docs.map((res, i) => {
                     const messageData = res.data({serverTimestamps: 'estimate'}) as MessageInterface;
                     const id = res.id;
@@ -95,7 +118,11 @@ export default function DM() {
                                         hasOwnership={messageData?.uid == user?.uid} delFn={() => deleteMessage(id)}
                                         enableEdit={() => setEditMessageId(editMessageId == id ? "" : id)}
                                         isEdit={editMessageId == id} editRef={ref} setEditMessage={setEditMessage}
-                                        resendFn={text => resendMessage(messageData, id, text)}/>
+                                        resendFn={text => resendMessage(messageData, id, text)}
+                                        setScaledImage={()=> {
+                                            setScaledImage(messageData.file?.url);
+                                            setEnableImageDialog(true);
+                                        }}/>
                 })}
             </ol>
             <div className="flex flex-col bg-main-text-box rounded-xl mx-4 mb-4">
@@ -104,13 +131,31 @@ export default function DM() {
                     <label htmlFor="fileButton" className="mr-2 group hover:cursor-pointer">
                         <img src="/icons/upload.png" alt="upload" className="w-6 h-6 group-hover:brightness-125"/>
                     </label>
-                    <input type="file" className="hidden" id="fileButton" onChange={(e) => setFile(e.target.files?.[0])}/>
-                    <input type="text" className="appearance-none outline-none bg-main-text-box flex grow" name="text"
-                           autoComplete="off" value={text} ref={textBox}
+                    <input type="file" className="hidden" id="fileButton" onChange={
+                        (e) => {
+                            setFile(e.target.files?.[0])
+                            e.target.value = "";
+                        }}/>
+                    {isUploadingFile && <img className={"flex animate-spin w-4 h-4 mx-1 my-auto"} src="/icons/loading.svg" alt="loading"/>}
+                    <input type="text" className="appearance-none outline-none bg-main-text-box flex grow disabled:placeholder:text-disabled" name="text"
+                           autoComplete="off" value={text} ref={textBox} disabled={isUploadingFile}
                            onChange={(e) => setText(e.target.value)}/>
                     <input type="submit" className="hidden"/>
                 </form>
             </div>
+
+            <Dialog open={enableImageDialog} onClose={() => setEnableImageDialog(false)} transition
+                    className="relative z-50 transition duration-200 ease-in-out data-[closed]:opacity-0">
+                <DialogBackdrop className="fixed inset-0 bg-black/60"/>
+                <div className="fixed inset-0 flex flex-col w-screen items-center justify-center p-10">
+                    <DialogPanel as="div" className="max-h-full max-w-full">
+                        <img src={scaledImage} alt="Scaled Image" className="object-scale-down max-h-full max-w-4/6"/>
+                        <Link href={scaledImage!} target="_blank"
+                              className="text-tertiary-text hover:text-secondary-text hover:underline active:text-white">
+                            Open In Browser</Link>
+                    </DialogPanel>
+                </div>
+            </Dialog>
         </article>
     );
 }
