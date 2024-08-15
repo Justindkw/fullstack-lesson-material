@@ -15,7 +15,7 @@ import {
 } from "@firebase/firestore";
 import {useCollection, useDocumentData} from "react-firebase-hooks/firestore";
 import MessageCard from "@/app/components/MessageCard";
-import {Dimension, MessageInterface} from "@/app/lib/interfaces";
+import {MessageInterface} from "@/app/lib/interfaces";
 import {serverTimestamp, query} from "@firebase/firestore";
 import {useSearchParams} from "next/navigation";
 import {useUploadFile} from "react-firebase-hooks/storage";
@@ -47,6 +47,7 @@ export default function DM() {
     const sideBarState = useContext(SidebarContext);
     const [zoomImage, setZoomImage] = useState("");
     const [enableZoom, setEnableZoom] = useState(false);
+    const [isUploadingFile, setIsUploadingFile] = useState(false);
 
     useEffect(() => {
         function handleKeyDown(ev: KeyboardEvent) {
@@ -90,6 +91,7 @@ export default function DM() {
         } as MessageInterface;
 
         if (file) {
+            setIsUploadingFile(true);
             const tile = file;
             setFile(undefined);
             const type = tile.type.includes("image") ? "image" : "file";
@@ -103,6 +105,7 @@ export default function DM() {
                const placeholder = await fetchBlurImage(url);
                doc.file = {width, height, placeholder, ...doc.file}
             }
+            setIsUploadingFile(false);
         }
         await addDoc(collection(firestore, "dm", dmId, "messages"), doc);
     }
@@ -136,6 +139,15 @@ export default function DM() {
               </span>
             </header>
             <ol className="flex flex-col-reverse flex-grow overflow-y-auto" onScroll={loadMoreMessage}>
+                {
+                    isUploadingFile && <div className="flex mt-4">
+                        <div className="bg-secondary w-10 h-10 rounded-full mx-4 animate-pulse"/>
+                        <div className="flex flex-col gap-2">
+                            <div className="bg-secondary w-28 h-5 rounded-full animate-pulse"/>
+                            <div className="bg-secondary w-52 h-52 rounded-xl animate-pulse"/>
+                        </div>
+                    </div>
+                }
                 {savedMessages?.docs.map((res, i, messages) => {
                     const options = {serverTimestamps: 'estimate'} as SnapshotOptions;
                     const messageData = res.data(options) as MessageInterface;
@@ -168,8 +180,9 @@ export default function DM() {
                         setFile(e.target.files?.[0]);
                         e.target.value = "";
                     }}/>
-                    <input type="text" className="appearance-none outline-none bg-main-text-box flex grow" name="text"
-                           autoComplete="off" value={text} ref={textBox}
+                    {isUploadingFile && <img className={"flex animate-spin w-4 h-4 mx-1 my-auto"} src="/icons/loading.svg" alt="loading"/>}
+                    <input type="text" className="appearance-none outline-none bg-main-text-box flex grow disabled:placeholder:text-disabled"
+                           name="text" autoComplete="off" value={text} ref={textBox} disabled={isUploadingFile}
                            onChange={(e) => setText(e.target.value)}/>
                     <input type="submit" className="hidden"/>
                 </form>
